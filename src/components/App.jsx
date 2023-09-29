@@ -29,11 +29,13 @@ export class App extends Component {
           {showImages &&
             this.state.images.map(({ id, webformatURL, largeImageURL }) => {
               return (
-                <li key={index.id} className="imageListItem">
-                  <span className="id">id: {id}</span>
-                  <p className="p">webformatURL: {webformatURL}</p>
-                  <p className="p">largeImageURL:{largeImageURL}</p>
-                </li>
+                <li
+                  webformatURL={webformatURL}
+                  largeImageURL={largeImageURL}
+                  key={id}
+                  id={id}
+                  // onClick={this.setActiveImg}
+                />
               );
             })}
         </ul>
