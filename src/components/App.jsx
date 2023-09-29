@@ -36,17 +36,25 @@ export class App extends Component {
         )}
         <ul className="imageList">
           {showImages &&
-            this.state.images.map(({ id, webformatURL, largeImageURL }) => {
-              return (
-                <li
-                  webformatURL={webformatURL}
-                  largeImageURL={largeImageURL}
-                  key={id}
-                  id={id}
-                  // onClick={this.setActiveImg}
-                />
-              );
-            })}
+            this.state.images.map(
+              ({ tags, webformatURL, largeImageURL, id }) => {
+                return (
+                  <li
+                    // webformatURL={webformatURL}
+                    // largeImageURL={largeImageURL}
+                    key={id}
+                    id={id}
+                    // onClick={this.setActiveImg}
+                  >
+                    <h3>{tags}</h3>
+                    <p>id:{id}</p>
+                    <img src={webformatURL} width={400} alt={tags} />
+
+                    {/* <img src={largeImageURL}></img> */}
+                  </li>
+                );
+              }
+            )}
         </ul>
         {/* <Searchbar />
         <ImageGallery />
