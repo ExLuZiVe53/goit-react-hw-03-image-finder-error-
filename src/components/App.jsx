@@ -25,7 +25,7 @@ export class App extends Component {
     try {
       this.setState({ isLoading: true });
       const image = await findPictureSearch(this.state.searchImagesQ);
-      this.setState({ images: [image] });
+      this.setState({ images: [...image] });
     } catch (error) {
       this.setState({ error: error.message });
     } finally {
