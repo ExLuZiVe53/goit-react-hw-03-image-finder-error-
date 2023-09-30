@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { fetchPictures, findPictureSearch } from './servises/api';
+import { Dna } from 'react-loader-spinner';
 
 export class App extends Component {
   state = {
@@ -74,7 +75,15 @@ export class App extends Component {
         </header>
         {this.state.isLoading && (
           <div>
-            <p className="loading">Loading...</p>
+            <Dna
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="dna-wrapper"
+            />
+            {/* <p className="loading">Loading...</p> */}
           </div>
         )}
         {this.state.error && <p className="error">{this.state.error}</p>}
@@ -85,23 +94,8 @@ export class App extends Component {
               ({ tags, webformatURL, largeImageURL, id }) => {
                 return (
                   <li key={id} className="gallery-item">
-                    <p>id:{id}</p>
-                    <h3>{tags}</h3>
                     <img src={webformatURL} width={400} alt={tags} />
                   </li>
-                  // <li
-                  //   // webformatURL={webformatURL}
-                  //   // largeImageURL={largeImageURL}
-                  //   key={id}
-                  //   id={id}
-                  //   // onClick={this.setActiveImg}
-                  // >
-                  //   <h3>{tags}</h3>
-                  //   <p>id:{id}</p>
-                  //   <img src={webformatURL} width={400} alt={tags} />
-
-                  //   {/* <img src={largeImageURL}></img> */}
-                  // </li>
                 );
               }
             )}
