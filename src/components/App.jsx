@@ -100,6 +100,7 @@ export class App extends Component {
               }
             )}
         </ul>
+        <button onClick={() => this.fetchImageByQuery}>Load more</button>
         {/* <Searchbar />
         <ImageGallery />
         <ImageGalleryItem />
