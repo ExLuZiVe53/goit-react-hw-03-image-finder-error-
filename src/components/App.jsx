@@ -3,6 +3,7 @@ import { fetchPictures, findPictureSearch } from './servises/api';
 import { Dna } from 'react-loader-spinner';
 
 export class App extends Component {
+  // write to state i default
   state = {
     images: null,
     isLoading: false,
@@ -10,6 +11,7 @@ export class App extends Component {
     searchImagesQ: null,
   };
 
+  // fetch default allPictures
   fetchAllPictures = async () => {
     try {
       this.setState({ isLoading: true });
@@ -22,6 +24,7 @@ export class App extends Component {
     }
   };
 
+  // fetch search by query images
   fetchImageByQuery = async () => {
     try {
       this.setState({ isLoading: true });
@@ -33,16 +36,20 @@ export class App extends Component {
       this.setState({ isLoading: false });
     }
   };
-  componentDidMount() {
-    this.fetchAllPictures();
-  }
+  // mount loading default render page
 
+  // componentDidMount() {
+  //   this.fetchAllPictures();
+  // }
+
+  // write method componentDidUpdate and compare prevState vs here state
   componentDidUpdate(_, prevState) {
     if (prevState.searchImagesQ !== this.state.searchImagesQ) {
       this.fetchImageByQuery();
     }
   }
 
+  // method with submit form
   handleSearchSubmit = event => {
     event.preventDefault();
 
@@ -52,11 +59,13 @@ export class App extends Component {
   };
 
   render() {
+    // compare here object in object length
     const showImages =
       Array.isArray(this.state.images) && this.state.images.length;
 
     return (
       <>
+        {/* render component searchbar(form) */}
         <header className="searchbar">
           <form onSubmit={this.handleSearchSubmit} className="form">
             <button type="submit" className="button">
@@ -73,8 +82,10 @@ export class App extends Component {
             />
           </form>
         </header>
+        {/* compare isLoading vs library react-loader-spiner */}
         {this.state.isLoading && (
           <div>
+            {/* settings library react-loader-spiner */}
             <Dna
               visible={true}
               height="80"
@@ -101,6 +112,13 @@ export class App extends Component {
             )}
         </ul>
         <button onClick={() => this.fetchImageByQuery}>Load more</button>
+
+        {/* modal window */}
+        <div class="overlay">
+          <div class="modal">
+            <img src="" alt="" />
+          </div>
+        </div>
         {/* <Searchbar />
         <ImageGallery />
         <ImageGalleryItem />
