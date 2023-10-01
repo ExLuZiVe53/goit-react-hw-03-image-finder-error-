@@ -5,7 +5,7 @@ import { Notify } from 'notiflix';
 import { BTNLoadMore } from './Button/Button.jsx';
 import { fetchPictures } from './Api/fetchPictures.js';
 import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
-import { SearchBar } from './SearchBar/Searchbar.jsx';
+import { SearchBar } from './SearchBar/SearchBar';
 import { ErMessage } from './SearchBar/ErMessage.jsx';
 
 // import { fetchPictures } from "./Api/fetchPictures.js";
@@ -42,10 +42,9 @@ export class App extends Component {
       this.state.searchImg === nextState.searchImg &&
       this.state.page === nextState.page
     ) {
-      return 
-
+      return;
     }
-   
+
     // перевірка на новий пошук в інпуті
     if (this.state.searchImg !== nextState.searchImg) {
       this.setState({
@@ -68,7 +67,7 @@ export class App extends Component {
       }
       // додаю у стан масив даних для  для галереї
       console.log(images.hits);
-      
+
       this.setState(
         prevImages => ({
           searchAr: [
@@ -108,7 +107,6 @@ export class App extends Component {
       this.setState({ isLoading: false });
     }
   }
-
 
   //новий запит по кліку на LoadMore
   newFetchImages = () => {
