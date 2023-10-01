@@ -11,7 +11,7 @@ export class App extends Component {
     isLoading: false,
     error: null,
     searchImagesQ: null,
-    // modal: { isOpen, data },
+    modal: { isOpen: false, data: null },
   };
 
   // fetch default allPictures
@@ -59,6 +59,18 @@ export class App extends Component {
     const searchImagesQ = event.currentTarget.elements.searchQ.value;
     this.setState({ searchImagesQ: searchImagesQ });
     event.currentTarget.reset();
+  };
+
+  onOpenModal = modalData => {
+    this.setState({
+      modal: { isOpen: true, data: modalData },
+    });
+  };
+
+  onCloseModal = () => {
+    this.setState({
+      modal: { isOpen: false, data: null },
+    });
   };
 
   render() {
@@ -117,9 +129,28 @@ export class App extends Component {
         <button onClick={() => this.fetchImageByQuery}>Load more</button>
 
         {/* modal window */}
+        {/* <Modal /> */}
         {showImages &&
           this.state.images.map(({ largeImageURL, tags, id }) => (
-            <Modal key={id} />
+            <div key={id} className={css.Overlay}>
+              <div className={css.Modal}>
+                <button className={css.ModalBtn} type="button">
+                  &times;
+                </button>
+                {/* <p>
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Delectus natus quo rerum quas laborum et aliquam dolorem.
+                  Alias nobis quaerat magnam animi assumenda doloribus fugiat,
+                  est quis praesentium commodi officiis?
+                </p> */}
+                <img
+                  className={css.ImgModal}
+                  src={largeImageURL}
+                  alt={tags}
+                  // onOpenModal={this.onOpenModal}
+                />
+              </div>
+            </div>
           ))}
 
         {/* {this.state.modal.isOpen && <Modal />} */}
