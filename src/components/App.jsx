@@ -3,6 +3,8 @@ import { fetchPictures, findPictureSearch } from './servises/api';
 import { Dna } from 'react-loader-spinner';
 import Modal from './Modal/Modal';
 import css from './styles.module.css';
+import { Searchbar } from './Searchbar/Searchbar';
+import { Loader } from './Loader/Loader';
 
 export class App extends Component {
   // write to state i default
@@ -81,44 +83,17 @@ export class App extends Component {
     return (
       <div className="App">
         {/* render component searchbar(form) */}
-        <header className="searchbar">
-          <form onSubmit={this.handleSearchSubmit} className="form">
-            <button type="submit" className="button">
-              <span className="button-label">Search</span>
-            </button>
-
-            <input
-              className="input"
-              name="searchQ"
-              type="text"
-              // autocomplete="off"
-              // autofocus
-              placeholder="Search images and photos"
-            />
-          </form>
-        </header>
+        <Searchbar />
         {/* compare isLoading vs library react-loader-spiner */}
-        {this.state.isLoading && (
-          <div>
-            {/* settings library react-loader-spiner */}
-            <Dna
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="dna-loading"
-              wrapperStyle={{}}
-              wrapperClass="dna-wrapper"
-            />
-            {/* <p className="loading">Loading...</p> */}
-          </div>
-        )}
+        {this.state.isLoading && <Loader />}
         {this.state.error && <p className="error">{this.state.error}</p>}
+
         <ul className="gallery">
-          {/* Набір <li> із зображеннями */}
           {showImages &&
             this.state.images.map(
               ({ tags, webformatURL, largeImageURL, id }) => {
                 return (
+                  // Набір <li> із зображеннями
                   <li key={id} className="gallery-item">
                     <img src={webformatURL} width={400} alt={tags} />
                   </li>
@@ -126,39 +101,27 @@ export class App extends Component {
               }
             )}
         </ul>
-        <button onClick={() => this.fetchImageByQuery}>Load more</button>
+        <button>Load more</button>
 
         {/* modal window */}
         {/* <Modal /> */}
-        {showImages &&
-          this.state.images.map(({ largeImageURL, tags, id }) => (
-            <div key={id} className={css.Overlay}>
-              <div className={css.Modal}>
-                <button className={css.ModalBtn} type="button">
-                  &times;
-                </button>
-                {/* <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Delectus natus quo rerum quas laborum et aliquam dolorem.
-                  Alias nobis quaerat magnam animi assumenda doloribus fugiat,
-                  est quis praesentium commodi officiis?
-                </p> */}
-                <img
-                  className={css.ImgModal}
-                  src={largeImageURL}
-                  alt={tags}
-                  // onOpenModal={this.onOpenModal}
-                />
-              </div>
-            </div>
-          ))}
+
+        {/* <div key={id} className={css.Overlay}>
+          <div className={css.Modal}>
+            <button className={css.ModalBtn} type="button">
+              &times;
+            </button>
+
+           
+          </div>
+        </div> */}
 
         {/* {this.state.modal.isOpen && <Modal />} */}
 
-        {/* <Searchbar />
+        {/* 
         <ImageGallery />
         <ImageGalleryItem />
-        <Loader />
+        
         <Button />
         <Modal /> */}
       </div>
