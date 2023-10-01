@@ -1,34 +1,22 @@
-// export const Loader = () => {
-//   return <p>LOADING ...</p>;
-// };
-
-
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
 const Loader = props => (
   <ContentLoader
     speed={2}
-    width={500}
-    height={500}
-    viewBox="0 0 800 800"
-    backgroundColor="#858080"
-    foregroundColor="#ecebeb"
-    
+    width={476}
+    height={124}
+    viewBox="0 0 476 124"
+    backgroundColor="#2d0101"
+    foregroundColor="#918d59"
     {...props}
   >
-    <rect x="100" y="100" rx="3" ry="3"   width="90" height="90" />
-    <rect x="100" y="0" rx="3" ry="3"     width="90" height="90" />
-    <rect x="0" y="200" rx="3" ry="3"     width="90" height="90" />
-    <rect x="0" y="100" rx="3" ry="3"     width="90" height="90" />
-    <rect x="200" y="100" rx="3" ry="3"   width="90" height="90" />
-    <rect x="100" y="200" rx="3" ry="3"   width="90" height="90" />
-    <rect x="200" y="200" rx="3" ry="3"   width="90" height="90" />
-    <rect x="200" y="0" rx="3" ry="3"     width="90" height="90" />
-    <rect x="300" y="100" rx="3" ry="3"   width="90" height="90" />
-    <rect x="300" y="200" rx="3" ry="3"   width="90" height="90" />
-    <rect x="0" y="0" rx="3" ry="3"       width="90" height="90" />
-    <rect x="300" y="0" rx="3" ry="3"     width="90" height="90" />
+    <rect x="48" y="8" rx="3" ry="3" width="88" height="6" />
+    <rect x="48" y="26" rx="3" ry="3" width="52" height="6" />
+    <rect x="0" y="56" rx="3" ry="3" width="410" height="6" />
+    <rect x="0" y="72" rx="3" ry="3" width="380" height="6" />
+    <rect x="0" y="88" rx="3" ry="3" width="178" height="6" />
+    <circle cx="20" cy="20" r="20" />
   </ContentLoader>
 );
 
