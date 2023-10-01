@@ -119,14 +119,7 @@ export class App extends Component {
         {/* modal window */}
         {showImages &&
           this.state.images.map(({ largeImageURL, tags, id }) => (
-            <div key={id} className={css.Overlay}>
-              <div className={css.Modal}>
-                <button className={css.ModalBtn} type="button">
-                  &times;
-                </button>
-                <img className={css.ImgModal} src={largeImageURL} alt={tags} />
-              </div>
-            </div>
+            <Modal key={id} />
           ))}
 
         {/* {this.state.modal.isOpen && <Modal />} */}
