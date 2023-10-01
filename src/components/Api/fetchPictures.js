@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// welcome to axios
 axios.defaults.baseURL = 'https://pixabay.com/';
 
 export async function fetchPictures(namePic, abortCtrl, page = 1) {
