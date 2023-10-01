@@ -1,129 +1,138 @@
-import { Component } from 'react';
-import { fetchPictures, findPictureSearch } from './servises/api';
-import { Dna } from 'react-loader-spinner';
-import Modal from './Modal/Modal';
-import css from './styles.module.css';
-import { Searchbar } from './Searchbar/Searchbar';
-import { Loader } from './Loader/Loader';
+import React, { Component } from 'react';
 
+import Loader from './Loader/Loader.jsx';
+import { Notify } from 'notiflix';
+import { BTNLoadMore } from './Button/Button.jsx';
+import { fetchPictures } from './Api/fetchPictures.js';
+import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
+import { SearchBar } from './SearchBar/Searchbar.jsx';
+import { ErMessage } from './SearchBar/ErMessage.jsx';
+
+// import { fetchPictures } from "./Api/fetchPictures.js";
 export class App extends Component {
-  // write to state i default
+  // Переривач запитів
+  abortCtrl;
+  // Стан
   state = {
-    images: null,
     isLoading: false,
     error: null,
-    searchImagesQ: null,
-    modal: { isOpen: false, data: null },
+    searchAr: [],
+    searchImg: '',
+    page: 1,
+    isShow: false,
   };
 
-  // fetch default allPictures
-  fetchAllPictures = async () => {
+  // Сабміт форми
+  handleSabmit = input => {
+    this.setState({ searchImg: input });
+  };
+  //стилі для App
+  appStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    fontSize: 40,
+    color: '#010101',
+  };
+  // Життєвий цикл
+  async componentDidUpdate(_, nextState) {
+    // перевірка на однаковий ввід та повтор сторінок запиту
+    if (
+      this.state.searchImg === nextState.searchImg &&
+      this.state.page === nextState.page
+    ) {
+      return 
+
+    }
+   
+    // перевірка на новий пошук в інпуті
+    if (this.state.searchImg !== nextState.searchImg) {
+      this.setState({
+        searchAr: [],
+        page: 1,
+        isShow: false,
+      });
+    }
     try {
-      this.setState({ isLoading: true });
-      const images = await fetchPictures();
-      this.setState({ images: images });
+      const { searchImg, page } = this.state;
+      //ініціалізація абортконтролера
+      this.abortCtrl = new AbortController();
+      // зміна стану
+      this.setState({ isLoading: true, error: null });
+      //запит на API
+      const images = await fetchPictures(searchImg, this.abortCtrl, page);
+      // Нотифікашка скільки є картинок по запиту
+      if (images.totalhits) {
+        Notify.info(`Hooray! We found ${images.totalHits} images.`);
+      }
+      // додаю у стан масив даних для  для галереї
+      console.log(images.hits);
+      
+      this.setState(
+        prevImages => ({
+          searchAr: [
+            ...prevImages.searchAr,
+            ...images.hits.map(({ tags, id, largeImageURL, webformatURL }) => ({
+              tags,
+              id,
+              largeImageURL,
+              webformatURL,
+            })),
+          ],
+          isShow: true,
+        }),
+        //плавний скрол
+        () => {
+          if (page !== 1)
+            window.scrollBy({
+              top: 260 * 3,
+              behavior: 'smooth',
+            });
+        }
+      );
+      //перевірка на останю партію картинок і приховання кнопки LoadMore
+      if (images.hits.length < 12) {
+        this.setState({
+          isShow: false,
+        });
+        Notify.failure('Sorry, that is all results.');
+      }
     } catch (error) {
-      this.setState({ error: error.message });
+      if (error.code !== 'ERR_CANCELED') {
+        this.setState({
+          error: 'Somethink was wrong! Please reloading the page.',
+        });
+      }
     } finally {
       this.setState({ isLoading: false });
-    }
-  };
-
-  // fetch search by query images
-  fetchImageByQuery = async () => {
-    try {
-      this.setState({ isLoading: true });
-      const image = await findPictureSearch(this.state.searchImagesQ);
-      this.setState({ images: [...image] });
-    } catch (error) {
-      this.setState({ error: error.message });
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  };
-  // mount loading default render page
-
-  // componentDidMount() {
-  //   this.fetchAllPictures();
-  // }
-
-  // write method componentDidUpdate and compare prevState vs here state
-  componentDidUpdate(_, prevState) {
-    if (prevState.searchImagesQ !== this.state.searchImagesQ) {
-      this.fetchImageByQuery();
     }
   }
 
-  // method with submit form
-  handleSearchSubmit = event => {
-    event.preventDefault();
 
-    const searchImagesQ = event.currentTarget.elements.searchQ.value;
-    this.setState({ searchImagesQ: searchImagesQ });
-    event.currentTarget.reset();
-  };
-
-  onOpenModal = modalData => {
+  //новий запит по кліку на LoadMore
+  newFetchImages = () => {
     this.setState({
-      modal: { isOpen: true, data: modalData },
-    });
-  };
-
-  onCloseModal = () => {
-    this.setState({
-      modal: { isOpen: false, data: null },
+      page: this.state.page + 1,
     });
   };
 
   render() {
-    // compare here object in object length
-    const showImages =
-      Array.isArray(this.state.images) && this.state.images.length;
+    const { isLoading, searchAr, isShow, error } = this.state;
 
     return (
-      <div className="App">
-        {/* render component searchbar(form) */}
-        <Searchbar />
-        {/* compare isLoading vs library react-loader-spiner */}
-        {this.state.isLoading && <Loader />}
-        {this.state.error && <p className="error">{this.state.error}</p>}
-
-        <ul className="gallery">
-          {showImages &&
-            this.state.images.map(
-              ({ tags, webformatURL, largeImageURL, id }) => {
-                return (
-                  // Набір <li> із зображеннями
-                  <li key={id} className="gallery-item">
-                    <img src={webformatURL} width={400} alt={tags} />
-                  </li>
-                );
-              }
-            )}
-        </ul>
-        <button>Load more</button>
-
-        {/* modal window */}
-        {/* <Modal /> */}
-
-        {/* <div key={id} className={css.Overlay}>
-          <div className={css.Modal}>
-            <button className={css.ModalBtn} type="button">
-              &times;
-            </button>
-
-           
-          </div>
-        </div> */}
-
-        {/* {this.state.modal.isOpen && <Modal />} */}
-
-        {/* 
-        <ImageGallery />
-        <ImageGalleryItem />
-        
-        <Button />
-        <Modal /> */}
+      <div style={this.appStyle}>
+        <SearchBar
+          handleSabmit={this.handleSabmit}
+          handleChange={this.handleChange}
+        />
+        {isLoading && (
+          // true
+          <Loader />
+        )}
+        {error && <ErMessage>{error}</ErMessage>}
+        <ImageGallery images={searchAr} />
+        {isShow && <BTNLoadMore onChange={this.newFetchImages} />}
       </div>
     );
   }

@@ -1,13 +1,13 @@
-// import { Component } from 'react';
+import { GalerryLi, Img } from './ImageGalleryItem.styled';
 
-// export class ImageGalleryItem extends Component {
-//   render() {
-//     return (
-//       <li key={id} className="gallery-item">
-//         <p>id:{id}</p>
-//         <h3>{tags}</h3>
-//         <img src={webformatURL} width={400} alt={tags} />
-//       </li>
-//     );
-//   }
-// }
+export const ImageGalleryItem = ({ picture, getImgById }) => {
+  const { id, webformatURL, tags } = picture;
+  const handleClick = id => {
+    getImgById(id);
+  };
+  return (
+    <GalerryLi className="gallery-item" onClick={() => handleClick(id)}>
+      <Img src={webformatURL} alt={tags} loading="lazy" />
+    </GalerryLi>
+  );
+};

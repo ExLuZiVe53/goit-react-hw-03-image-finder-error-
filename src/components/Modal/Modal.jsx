@@ -1,23 +1,45 @@
-// import React, { Component } from 'react';
-// import css from './Modal.module.css';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import ReactModal from 'react-modal';
+const customStyles = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(18, 17, 17, 0.8)',
+    zIndex: 1200,
+  },
+  content: {
+    maxWidth: 'calc(100vw - 48px)',
+    maxHeight: 'calc(100vh - 24px)',
+    padding: 10,
+    border: 'none',
+    position: 'static',
+    borderRadius: 0,
+    overflow: 'hidden',
+  },
+};
+ReactModal.setAppElement('#root');
+export const Modal = ({ img, closeModal, modalIsOpen }) => {
 
-// export default class Modal extends Component {
-//   render() {
-//     return (
-//       <div key={id} className={css.Overlay}>
-//         <div className={css.Modal}>
-//           <button className={css.ModalBtn} type="button">
-//             &times;
-//           </button>
-//           <p>
-//             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus
-//             natus quo rerum quas laborum et aliquam dolorem. Alias nobis quaerat
-//             magnam animi assumenda doloribus fugiat, est quis praesentium
-//             commodi officiis?
-//           </p>
-//           {/* <img className={css.ImgModal} src={largeImageURL} alt={tags} /> */}
-//         </div>
-//       </div>
-//     );
-//   }
-// }
+
+  return (
+    <ReactModal
+      isOpen={modalIsOpen}
+      shouldCloseOnOverlayClick={true}
+      onAfterOpen={() => disableBodyScroll(document)}
+      onAfterClose={() => enableBodyScroll(document)}
+      onRequestClose={() => closeModal()}
+      style={customStyles}
+      contentLabel="Example Modal"
+    >
+      
+      <img src={img.largeImageURL} alt={img.tags} loading="lazy" />
+      
+    </ReactModal>
+  );
+};
