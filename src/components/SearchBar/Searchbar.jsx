@@ -6,10 +6,9 @@ import {
   BTNSubmit,
   ButtonLabel,
   InputSearch,
-} from '../SearchBar/Searchbar.styled.js';
+} from './Searchbar.styled.js';
 
 import { FcSearch } from 'react-icons/fc';
-
 
 export class SearchBar extends Component {
   //стан
@@ -25,8 +24,6 @@ export class SearchBar extends Component {
   submit = e => {
     e.preventDefault();
     this.props.handleSabmit(this.state.searchImg);
-   
-      
   };
 
   initialValues = { searchimg: '' };

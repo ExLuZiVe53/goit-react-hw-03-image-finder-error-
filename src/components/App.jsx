@@ -5,7 +5,7 @@ import { Notify } from 'notiflix';
 import { BTNLoadMore } from './Button/Button.jsx';
 import { fetchPictures } from './Api/fetchPictures.js';
 import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
-import { SearchBar } from './SearchBar/SearchBar';
+import { SearchBar } from './SearchBar/SearchBar.jsx';
 import { ErMessage } from './SearchBar/ErMessage.jsx';
 
 // import { fetchPictures } from "./Api/fetchPictures.js";
