@@ -6,7 +6,7 @@ import {
   BTNSubmit,
   ButtonLabel,
   InputSearch,
-} from './SearchBar/Searchbar.styled.js';
+} from './Searchbar.styled';
 
 import { FcSearch } from 'react-icons/fc';
 

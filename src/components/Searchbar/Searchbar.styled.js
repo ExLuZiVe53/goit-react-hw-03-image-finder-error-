@@ -34,7 +34,7 @@ export const BTNSubmit = styled.button`
   width: 48px;
   height: 48px;
   border: 0;
-  
+
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: center;
@@ -57,7 +57,7 @@ export const ButtonLabel = styled.span`
   white-space: nowrap;
   clip-path: inset(50%);
   border: 0;
-`
+`;
 export const InputSearch = styled.input`
   display: inline-block;
   width: 100%;
@@ -72,8 +72,3 @@ export const InputSearch = styled.input`
     font-size: 18px;
   }
 `;
-
-// export const FcSearch = styled.svg` 
-//   size: 2em;
-//   vertical-align: middle;
-// `;
