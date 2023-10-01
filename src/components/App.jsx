@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { fetchPictures, findPictureSearch } from './servises/api';
 import { Dna } from 'react-loader-spinner';
+import Modal from './Modal/Modal';
+import css from './styles.module.css';
 
 export class App extends Component {
   // write to state i default
@@ -9,6 +11,7 @@ export class App extends Component {
     isLoading: false,
     error: null,
     searchImagesQ: null,
+    // modal: { isOpen, data },
   };
 
   // fetch default allPictures
@@ -64,7 +67,7 @@ export class App extends Component {
       Array.isArray(this.state.images) && this.state.images.length;
 
     return (
-      <>
+      <div className="App">
         {/* render component searchbar(form) */}
         <header className="searchbar">
           <form onSubmit={this.handleSearchSubmit} className="form">
@@ -114,18 +117,27 @@ export class App extends Component {
         <button onClick={() => this.fetchImageByQuery}>Load more</button>
 
         {/* modal window */}
-        <div class="overlay">
-          <div class="modal">
-            <img src="" alt="" />
-          </div>
-        </div>
+        {showImages &&
+          this.state.images.map(({ largeImageURL, tags, id }) => (
+            <div key={id} className={css.Overlay}>
+              <div className={css.Modal}>
+                <button className={css.ModalBtn} type="button">
+                  &times;
+                </button>
+                <img className={css.ImgModal} src={largeImageURL} alt={tags} />
+              </div>
+            </div>
+          ))}
+
+        {/* {this.state.modal.isOpen && <Modal />} */}
+
         {/* <Searchbar />
         <ImageGallery />
         <ImageGalleryItem />
         <Loader />
         <Button />
         <Modal /> */}
-      </>
+      </div>
     );
   }
 }
